@@ -57,17 +57,11 @@ def show3Dpose(vals, ax): #vals:shape:(17,3),17頂点x,y,z:3方向
 
     for i in np.arange( len(I) ):
         x, y, z = [np.array( [vals[I[i], j], vals[J[i], j]] ) for j in range(3)]
-
         #x,y,z
         print("i:{}".format(i))
         print("x:{},y:{},z:{}".format(x,y,z))
-        ax.plot(x, y, z, lw=2) #関節間の線を引く
-        ax.scatter(x, y, z) #関節点をプロットする
-    
-    for i in np.arange( len(I) ):
-        x, y, z = [np.array( [vals[I[i], j], vals[J[i], j]] ) for j in range(3)]
-        ax.plot(x, y, z, lw=1)
-
+        ax.plot(x, y, z, lw=1) #関節間の線を引く
+        # ax.scatter(x, y, z) #関節点をプロットする
 
     for i in range(len(vals)):
         x,y,z = vals[i]
