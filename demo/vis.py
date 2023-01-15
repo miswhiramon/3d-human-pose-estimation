@@ -232,6 +232,9 @@ def get_pose3D(video_path, output_dir): #shape:(17,3)
         # print("gs:{}".format(gs))
         # print("gs[0]:{}".format(gs[0]))
         ax = plt.subplot(gs[0], projection='3d')
+        ax.set_xlabel("X")
+        ax.set_ylabel("Y")
+        ax.set_zlabel("Z")
         show3Dpose( post_out, ax)
 
         output_dir_3D = output_dir +'pose3D/'
