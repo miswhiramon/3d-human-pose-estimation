@@ -62,6 +62,7 @@ def show3Dpose(vals, ax): #vals:shape:(17,3),17頂点x,y,z:3方向
         ax.plot(x, y, z, lw=1) #関節間の線を引く
         # ax.scatter(x, y, z) #関節点をプロットする
 
+    print()
     for i in range(len(vals)):
         x,y,z = vals[i]
         print("joint_id:{},(x,y,z)=({:.3f},{:.3f},{:.3f}),unity座標系(x,y,z)=({:.3f},{:.3f},{:.3f})".format(i,x,y,z,y,z,x))
