@@ -64,7 +64,7 @@ def show3Dpose(vals, ax): #vals:shape:(17,3),17頂点x,y,z:3方向
 
     for i in range(len(vals)):
         x,y,z = vals[i]
-        print("joint_id:{},(x,y,z)=({:.3f},{:.3f},{:.3f}),unity座標系(x,y,z)=({:.3f},{:.3f},{:.3f})".format(i,x,y,z,-y,z,x))
+        print("joint_id:{},(x,y,z)=({:.3f},{:.3f},{:.3f}),unity座標系(x,y,z)=({:.3f},{:.3f},{:.3f})".format(i,x,y,z,y,z,x))
         ax.scatter(x, y, z, s=3)
         #label = '%s, dir=%s' % (i,(x, y, z))
         #label = '  %s (%.2f %.2f %.2f)' % (i,x, y, z)
