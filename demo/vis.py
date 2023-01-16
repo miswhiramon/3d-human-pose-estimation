@@ -70,10 +70,10 @@ def show3Dpose(vals, ax): #vals:shape:(17,3),17頂点x,y,z:3方向
         #label = '  %s (%.2f %.2f %.2f)' % (i,x, y, z)
         label = '  %s' % (i)
         ax.text(x, y, z, label, fontsize=5)
-    ax.text(1,1,0,"(x,y,z)=(1,1,0)",fontsize=7)
-    ax.text(-1,1,0,"(x,y,z)=(-1,1,0)",fontsize=7)
-    ax.text(1,-1,0,"(x,y,z)=(1,-1,0)",fontsize=7)
-    ax.text(-1,-1,0,"(x,y,z)=(-1,-1,0)",fontsize=7)
+    ax.text(0.5,0.5,0,"(x,y,z)=(0.5,0.5,0)",fontsize=7)
+    ax.text(-0.5,0.5,0,"(x,y,z)=(-0.5,0.5,0)",fontsize=7)
+    ax.text(0.5,-0.5,0,"(x,y,z)=(0.5,-0.5,0)",fontsize=7)
+    ax.text(-0.5,-0.5,0,"(x,y,z)=(-0.5,-0.5,0)",fontsize=7)
 
     RADIUS = 0.8
 
