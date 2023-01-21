@@ -85,7 +85,7 @@ def show3Dpose(vals, ax): #vals:shape:(17,3),17頂点x,y,z:3方向
     print()
     d ={}
     for i in range(len(vals)):
-        x,y,z = vals[i]
+        x,y,z = map(float,vals[i])
         print("joint_id:{},(x,y,z)=({:.3f},{:.3f},{:.3f}),unity座標系(x,y,z)=({:.3f},{:.3f},{:.3f})".format(i,x,y,z,y,z,-x))
         ax.scatter(x, y, z, s=3)
         #label = '  %s (%.2f %.2f %.2f)' % (i,x, y, z)
@@ -273,7 +273,7 @@ def get_pose3D(video_path, output_dir): #shape:(17,3)
         plt.savefig(output_dir_3D + str(('%04d'% i)) + '_3D.png', dpi=200, format='png', bbox_inches = 'tight')
     
     f = open("skeleton_coord.json","w")
-    json.dump(joint_coord_dict,f)
+    json.dump(joint_coord_dict,f,indent=4)
     
     print('Generating 3D pose successful!')
 
