@@ -10,6 +10,7 @@ import glob
 from tqdm import tqdm
 import copy
 from IPython import embed
+import json
 
 sys.path.append(os.getcwd())
 from model.strided_transformer import Model
@@ -62,15 +63,35 @@ def show3Dpose(vals, ax): #vals:shape:(17,3),17頂点x,y,z:3方向
         ax.plot(x, y, z, lw=1) #関節間の線を引く
         # ax.scatter(x, y, z) #関節点をプロットする
 
+    joint_id_to_label = {
+        0:"hips",
+        1:"right_upperleg",
+        2:"right_lowerleg",
+        3:"right_foot",
+        4:"left_upperleg",
+        5:"left_lowerleg",
+        6:"left_foot",
+        7:"None",
+        8:"neck",
+        9:"None",
+        10:"head",
+        11:"left_upperarm",
+        12:"left_lowerarm",
+        13:"left_hand",
+        14:"right_upperarm",
+        15:"right_lowerarm",
+        16:"right_hand"
+    }
     print()
+    d ={}
     for i in range(len(vals)):
         x,y,z = vals[i]
-        print("joint_id:{},(x,y,z)=({:.3f},{:.3f},{:.3f}),unity座標系(x,y,z)=({:.3f},{:.3f},{:.3f})".format(i,x,y,z,y,z,x))
+        print("joint_id:{},(x,y,z)=({:.3f},{:.3f},{:.3f}),unity座標系(x,y,z)=({:.3f},{:.3f},{:.3f})".format(i,x,y,z,y,z,-x))
         ax.scatter(x, y, z, s=3)
-        #label = '%s, dir=%s' % (i,(x, y, z))
         #label = '  %s (%.2f %.2f %.2f)' % (i,x, y, z)
         label = '  %s' % (i)
         ax.text(x, y, z, label, fontsize=5)
+        d[joint_id_to_label[i]] = [y,z,-x]
     ax.text(0.5,0.5,0,"(x,y,z)=(0.5,0.5,0)",fontsize=7)
     ax.text(-0.5,0.5,0,"(x,y,z)=(-0.5,0.5,0)",fontsize=7)
     ax.text(0.5,-0.5,0,"(x,y,z)=(0.5,-0.5,0)",fontsize=7)
@@ -90,6 +111,8 @@ def show3Dpose(vals, ax): #vals:shape:(17,3),17頂点x,y,z:3方向
     ax.tick_params('x', labelbottom = False)
     ax.tick_params('y', labelleft = False)
     ax.tick_params('z', labelleft = False)
+    
+    return d
 
 
 def get_pose2D(video_path, output_dir):
@@ -166,6 +189,8 @@ def get_pose3D(video_path, output_dir): #shape:(17,3)
     cap = cv2.VideoCapture(video_path)
     video_length = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
 
+    joint_coord_dict = {}
+
     ## 3D
     print('\nGenerating 3D pose...')
     for i in tqdm(range(video_length)):
@@ -240,12 +265,16 @@ def get_pose3D(video_path, output_dir): #shape:(17,3)
         ax.set_xlabel("X")
         ax.set_ylabel("Y")
         ax.set_zlabel("Z")
-        show3Dpose( post_out, ax)
+        d = show3Dpose(post_out, ax)
+        joint_coord_dict[i] = d
 
         output_dir_3D = output_dir +'pose3D/'
         os.makedirs(output_dir_3D, exist_ok=True)
         plt.savefig(output_dir_3D + str(('%04d'% i)) + '_3D.png', dpi=200, format='png', bbox_inches = 'tight')
-        
+    
+    f = open("skeleton_coord.json","w")
+    json.dump(joint_coord_dict,f)
+    
     print('Generating 3D pose successful!')
 
     ## all
